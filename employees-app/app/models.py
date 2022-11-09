@@ -1,7 +1,8 @@
-from app import db
+from app.database import db
 
 
 class Employees(db.Model):
+
     __tablename__ = 'employees'
 
     id = db.Column(db.Integer, primary_key=True)

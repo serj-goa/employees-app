@@ -1,7 +1,28 @@
-from app import app, db
-from models import Employees
+from app.config import Config
+from app.database import db
+from app.models import Employees
 
+from flask import Flask
 from flask import render_template, request, redirect
+
+
+def configure_app(application: Flask):
+    db.init_app(application)
+    db.create_all()
+
+
+def create_app(config: Config) -> Flask:
+    application = Flask(__name__)
+    application.config.from_object(config)
+    application.app_context().push()
+
+    return application
+
+
+app_config = Config()
+app = create_app(app_config)
+
+configure_app(app)
 
 
 @app.route('/')
@@ -50,4 +71,4 @@ def delete(id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
